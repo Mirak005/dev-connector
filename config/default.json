@@ -1,4 +1,6 @@
 {
-    "mongoURI" : "mongodb+srv://mirak005:mirak005@dev-connector-exercice-qo19f.mongodb.net/dev-connector?retryWrites=true&w=majority",
-    "jwtSecret":"mySecretKey"
+  "mongoURI": "mongodb+srv://mirak005:mirak005@dev-connector-exercice-qo19f.mongodb.net/dev-connector?retryWrites=true&w=majority",
+  "jwtSecret": "mySecretKey",
+  "githubClientId": "63383bd5962f0a22c9c9",
+  "githubSecret": "a2b9b795f6f0f5ffd24c2ea75de5fdc999be0f86"
 }

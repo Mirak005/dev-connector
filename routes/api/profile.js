@@ -1,7 +1,15 @@
 const express = require("express");
+const request = require("request");
+const config = require("config");
+
 const router = express.Router();
 const auth = require("../../middlewares/auth");
-const { validator, profileRules } = require("../../middlewares/checkValidator");
+const {
+  validator,
+  profileRules,
+  experienceRules,
+  educationRules
+} = require("../../middlewares/checkValidator");
 
 const User = require("../../models/User");
 const Profile = require("../../models/Profile");
@@ -143,6 +151,166 @@ router.delete(`/`, auth, async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.send(500).send("Server Error !!");
+  }
+});
+
+//@route PUT api/profile/experience
+//@desc Add Profile Experience
+//@acess Private
+router.put(
+  `/experience`,
+  auth,
+  experienceRules(),
+  validator,
+  async (req, res) => {
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    };
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.experience.unshift(newExp);
+      await profile.save();
+      res.json(profile);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error !");
+    }
+  }
+);
+
+//@route DELETE api/profile/experience/:exp_id
+//@desc DELETE Profile Experience
+//@acess Private
+router.delete(`/experience/:exp_id`, auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    //Get remove index (brad solution)
+    // const removeIndex = profile.experience
+    //   .map(item => item.id)
+    //   .indexOf(req.params.exp_id);
+    // profile.experience.splice(removeIndex, 1);
+
+    // My Solution
+    profile.experience = profile.experience.filter(
+      exp => exp.id !== req.params.exp_id
+    );
+
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error !");
+  }
+});
+
+//@route PUT api/profile/education
+//@desc Add Profile Education
+//@acess Private
+router.put(
+  `/education`,
+  auth,
+  educationRules(),
+  validator,
+  async (req, res) => {
+    const {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    const newEdu = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    };
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.education.unshift(newEdu);
+      await profile.save();
+      res.json(profile);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error !");
+    }
+  }
+);
+
+//@route DELETE api/profile/education/:edu_id
+//@desc DELETE Profile education
+//@acess Private
+router.delete(`/education/:edu_id`, auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    //Get remove index (brad solution)
+    // const removeIndex = profile.education
+    //   .map(item => item.id)
+    //   .indexOf(req.params.edu_id);
+    // profile.education.splice(removeIndex, 1);
+
+    // My Solution
+    profile.education = profile.education.filter(
+      exp => exp.id !== req.params.edu_id
+    );
+
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error !");
+  }
+});
+
+//@route GET api/profile/github/:username
+//@desc GET user repos from github
+//@acess Public
+router.get(`/github/:username`, (req, res) => {
+  try {
+    const options = {
+      uri: `https://api.github.com/users/${
+        req.params.username
+      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+        "githubClientId"
+      )}&client_sercret=${config.get("githubSecret")}`,
+      method: "GET",
+      headers: { "user-agent": "node.js" }
+    };
+
+    request(options, (error, response, body) => {
+      if (error) console.error(error);
+
+      if (response.statusCode !== 200) {
+        res.send(404).json({ msg: "No Github Profile found" });
+      }
+
+      res.json(JSON.parse(body));
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error !");
   }
 });
 

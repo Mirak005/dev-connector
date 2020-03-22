@@ -6,14 +6,13 @@ const app = express();
 //Connect DB
 connectDB();
 
-//MiddleWare 
+//MiddleWare
 
-app.use(express.json({extented : false }))
+app.use(express.json({ extented: false }));
 
 app.get("/", (req, res) => res.send("API Running"));
- 
 
-//Routes 
+//Routes
 app.use("/users", require("./routes/api/users"));
 app.use("/auth", require("./routes/api/auth"));
 app.use("/profile", require("./routes/api/profile"));

@@ -3,7 +3,9 @@ import { setAlert } from "./alertAction";
 import {
   GET_PROFILE,
   PROFILE_ERROR,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  CLEAR_PROFILE,
+  DELETE_ACCOUNT
 } from "../const/actionTypes";
 
 //Create or update a profile
@@ -108,5 +110,59 @@ export const addEducation = (formData, history) => async dispatch => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+  }
+};
+
+// Delete Experience
+export const deleteExperience = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/profile/experience/${id}`);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
+    dispatch(setAlert("Eexperience Removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+// Delete Education
+export const deleteEducation = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/profile/education/${id}`);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    });
+    dispatch(setAlert("Education Removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+//DELETE ACOUNT & PROFILE
+export const deleteAccount = () => async dispatch => {
+  if (window.confirm("Are you sure ? this can NOT be undone ")) {
+    try {
+      const res = await axios.delete(`/profile`);
+
+      dispatch({type: CLEAR_PROFILE });
+      dispatch({type: DELETE_ACCOUNT });
+
+      dispatch(setAlert("Your account has been permantly deleted" ,"primary"));
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
   }
 };

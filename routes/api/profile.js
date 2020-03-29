@@ -13,6 +13,7 @@ const {
 
 const User = require("../../models/User");
 const Profile = require("../../models/Profile");
+const Post = require("../../models/Post");
 
 //@route GET api/profile/me
 //@desc  get current users profile
@@ -141,7 +142,8 @@ router.post("/", auth, profileRules(), validator, async (req, res) => {
 //@acess Private
 router.delete(`/`, auth, async (req, res) => {
   try {
-    //@todo -- remove user posts
+    //Remove Posts of auth user
+    await Post.deleteMany({ user: req.user.id });
     //Remove Profile of auth user
     await Profile.findOneAndRemove({ user: req.user.id });
     //remove User

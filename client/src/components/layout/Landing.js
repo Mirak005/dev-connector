@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 
 const Landing = () => {
   const isAuth = useSelector(state => state.auth.isAuth);

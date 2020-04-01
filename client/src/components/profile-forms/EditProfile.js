@@ -50,7 +50,7 @@ const EditProfile = ({
       linkedin:
         loading || !profile.social.linkedin ? "" : profile.social.linkedin
     });
-  }, [loading]);
+  }, [loading , getCurrentProfile]);
 
   const {
     company,

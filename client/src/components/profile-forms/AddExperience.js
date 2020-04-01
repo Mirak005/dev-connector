@@ -77,7 +77,6 @@ const AddExperience = ({ addExperience  , history}) => {
               }}
               value={current}
               name="current"
-              value=""
             />{" "}
             Current Job
           </p>

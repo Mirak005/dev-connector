@@ -88,7 +88,6 @@ const AddEducation = ({ addEducation, history }) => {
               }}
               value={current}
               name="current"
-              value=""
             />{" "}
             Current Studies
           </p>

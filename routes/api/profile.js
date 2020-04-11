@@ -300,19 +300,21 @@ router.get(`/github/:username`, (req, res) => {
       method: "GET",
       headers: { "user-agent": "node.js" }
     };
+    
+
 
     request(options, (error, response, body) => {
       if (error) console.error(error);
 
       if (response.statusCode !== 200) {
-        res.send(404).json({ msg: "No Github Profile found" });
+        res.sendStatus(404).json({ msg: "No Github Profile found" });
       }
 
       res.json(JSON.parse(body));
     });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server Error !");
+    res.sendStatus(500).send("Server Error !");
   }
 });
 

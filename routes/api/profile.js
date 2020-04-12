@@ -300,7 +300,7 @@ router.get(`/github/:username`, async (req, res) => {
     };
 
     const gitHubResponse = await axios.get(uri, { headers });
-    return res.json(gitHubResponse.data);
+    return res.send(gitHubResponse.data);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server Error !");

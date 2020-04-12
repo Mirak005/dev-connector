@@ -134,7 +134,7 @@ router.put(`/unlike/:id`, auth, async (req, res) => {
     }
     //Check if the post has already been liked
     if (!post.likes.find(like => like.user.toString() === req.user.id)) {
-      return res.json({ msg: "You didn't like this post " });
+      return res.json(post.likes);
     }
     //Remove the like
     post.likes = post.likes.filter(

@@ -4,7 +4,8 @@ import {
   GET_POSTS,
   POST_ERROR,
   UPDATE_LIKES,
-  DELETE_POST
+  DELETE_POST,
+  ADD_POST
 } from "../const/actionTypes";
 
 //Get Posts
@@ -58,12 +59,32 @@ export const removeLike = postId => async dispatch => {
 //Remove Post
 export const deletePost = postId => async dispatch => {
   try {
-    const res = await axios.delete(`/posts/${postId}`);
+    await axios.delete(`/posts/${postId}`);
     dispatch({
       type: DELETE_POST,
       payload: { id: postId }
     });
-    dispatch(setAlert('Post has been removed' , 'success'))
+    dispatch(setAlert("Post has been removed", "success"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+//Add Post
+export const addPost = newPost => async dispatch => {
+  if (!newPost.text.trim()) {
+    return dispatch(setAlert("Add a valid text to publish a post", "danger"));
+  }
+
+  try {
+    const res = await axios.post(`/posts`, newPost);
+    dispatch({
+      type: ADD_POST,
+      payload: res.data
+    });
+    dispatch(setAlert("Post created", "success"));
   } catch (err) {
     dispatch({
       type: POST_ERROR,

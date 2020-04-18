@@ -173,7 +173,7 @@ router.post(
       };
       post.comments.unshift(newComment);
       await post.save();
-      res.json(post);
+      res.json(post.comments);
     } catch (error) {
       
       res.status(500).send("Server Error !");

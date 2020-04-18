@@ -5,7 +5,8 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
-  ADD_POST
+  ADD_POST,
+  GET_POST
 } from "../const/actionTypes";
 
 //Get Posts
@@ -85,6 +86,21 @@ export const addPost = newPost => async dispatch => {
       payload: res.data
     });
     dispatch(setAlert("Post created", "success"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+//Get Post
+export const getPostById = (id) => async dispatch => {
+  try {
+    const res = await axios.get(`/posts/${id}`);
+    dispatch({
+      type: GET_POST,
+      payload: res.data
+    });
   } catch (err) {
     dispatch({
       type: POST_ERROR,

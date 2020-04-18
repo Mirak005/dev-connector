@@ -28,7 +28,7 @@ router.post("/", auth, postRules(), validator, async (req, res) => {
     const post = await new Post(newPost).save();
     res.json(post);
   } catch (error) {
-    console.error(error.message);
+    
     res.status(500).send("Server Error !");
   }
 });
@@ -41,7 +41,7 @@ router.get(`/`, auth, async (req, res) => {
     const posts = await Post.find().sort({ date: -1 });
     res.send(posts);
   } catch (error) {
-    console.error(error.message);
+    
     res.status(500).send("Server Error !");
   }
 });
@@ -60,7 +60,7 @@ router.get(`/:id`, auth, async (req, res) => {
     if (error.kind === "ObjectId") {
       return res.status(404).json({ msg: "Post not found " });
     }
-    console.error(error.message);
+    
     res.status(500).send("Server Error !");
   }
 });
@@ -87,7 +87,7 @@ router.delete(`/:id`, auth, async (req, res) => {
     if (error.kind === "ObjectId") {
       return res.status(404).json({ msg: "Post not found " });
     }
-    console.error(error.message);
+    
     res.status(500).send("Server Error !");
   }
 });
@@ -117,7 +117,7 @@ router.put(`/like/:id`, auth, async (req, res) => {
     if (error.kind === "ObjectId") {
       return res.status(404).json({ msg: "Post not found " });
     }
-    console.error(error.message);
+    
     res.status(500).send("Server Error !");
   }
 });
@@ -147,7 +147,7 @@ router.put(`/unlike/:id`, auth, async (req, res) => {
     if (error.kind === "ObjectId") {
       return res.status(404).json({ msg: "Post not found " });
     }
-    console.error(error.message);
+    
     res.status(500).send("Server Error !");
   }
 });
@@ -175,7 +175,7 @@ router.post(
       await post.save();
       res.json(post);
     } catch (error) {
-      console.error(error.message);
+      
       res.status(500).send("Server Error !");
     }
   }
@@ -213,7 +213,6 @@ router.delete(`/comment/:id/:comment_id`, auth, async (req, res) => {
     await post.save();
     res.json(post);
   } catch (error) {
-    console.error(error.message);
     res.status(500).send("Server Error !");
   }
 });

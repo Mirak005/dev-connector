@@ -9,7 +9,7 @@ connectDB();
 
 //MiddleWare
 
-app.use(express.json({ extented: false }));
+app.use(express.json());
 
 //Routes
 app.use("/users", require("./routes/api/users"));

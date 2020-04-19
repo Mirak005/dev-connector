@@ -1,6 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://mirak005:mirak005@dev-connector-exercice-qo19f.mongodb.net/dev-connector?retryWrites=true&w=majority",
-    "jwtSecret": "mySecretKey",
-    "githubSecret": "ae477a00f2858aed77ba0926d2b6142dcb1b7f94"
-  }
-  
